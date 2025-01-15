@@ -23,7 +23,13 @@ public class CarRentController {
         LocalDate bookingDate = LocalDate.parse(date);
         boolean isAvailable = carRentService.isCarAvailable(carId, bookingDate);
 
-        return isAvailable ? "Car is available for the selected date." : "Car is not available for the selected date.";
+        if (isAvailable)
+        {
+        	return "Car is available for the selected date :" + date;
+        }
+        else {
+        	return "Car is not available for the selected date :" + date ;
+        }
     }
 	
 	@PostMapping("/book")

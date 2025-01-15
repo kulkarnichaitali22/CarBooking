@@ -1,7 +1,7 @@
 package com.CarBooking.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,17 @@ public class CarRentService {
 	@Autowired
 	private BookingRepo bookingRepo;
 	
-	public boolean isCarAvailable(Long carId, LocalDate bookingDate) {
-        Optional<CarInfo> car = carInfoRepo.findById(carId);
+	   public boolean isCarAvailable(Long carId, LocalDate bookingDate) {
+	        List<Booking> bookings = bookingRepo.findByCarId(carId);
 
-        if (car.isPresent() && car.get().getIsAvailable()) {
-            boolean alreadyBooked = !bookingRepo.findByCarIdAndBookingDate(carId, bookingDate).isEmpty();
-            return !alreadyBooked;
-        }
-        return false;
-    }
+	        for (Booking booking : bookings) {
+	            if (booking.getBookingDate().isEqual(bookingDate)) {
+	                return false; 
+	            }
+	        }
+
+	        return true; 
+	    }
 
     public String bookCar(Booking booking) {
         if (isCarAvailable(booking.getCarId(), booking.getBookingDate())) {
