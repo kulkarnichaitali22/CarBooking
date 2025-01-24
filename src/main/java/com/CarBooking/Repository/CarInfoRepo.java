@@ -7,5 +7,5 @@ import com.CarBooking.Entity.CarInfo;
 
 @Repository
 public interface CarInfoRepo extends JpaRepository<CarInfo, Long>{
-
+	
 }

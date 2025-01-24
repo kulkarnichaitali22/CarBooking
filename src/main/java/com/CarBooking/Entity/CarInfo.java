@@ -13,30 +13,22 @@ public class CarInfo {
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
-
 	    private String brandName;
-
 	    private Double price;
-
 	    private LocalDate createdDate;
-
 	    private LocalDate modifiedDate;
-
-	    private Boolean isAvailable;
-
+	    
 		public CarInfo() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
-		public CarInfo(String brandName, Double price, LocalDate createdDate, LocalDate modifiedDate,
-				Boolean isAvailable) {
+		public CarInfo(String brandName, Double price, LocalDate createdDate, LocalDate modifiedDate) {
 			super();
 			this.brandName = brandName;
 			this.price = price;
 			this.createdDate = createdDate;
 			this.modifiedDate = modifiedDate;
-			this.isAvailable = isAvailable;
 		}
 
 		public Long getId() {
@@ -79,14 +71,6 @@ public class CarInfo {
 			this.modifiedDate = modifiedDate;
 		}
 
-		public Boolean getIsAvailable() {
-			return isAvailable;
-		}
-
-		public void setIsAvailable(Boolean isAvailable) {
-			this.isAvailable = isAvailable;
-		}
-	    
 	    
 
 }

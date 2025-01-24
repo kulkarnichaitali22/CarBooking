@@ -19,25 +19,36 @@ public class Enquiry {
 	private String address;
 	private String destination;
 	private LocalDate date;
-	private int status;
+	private String email;
 	public Enquiry() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Enquiry(String name, String address, String destination, LocalDate date, int status) {
+	
+	public Enquiry(long id, String name, String address, String destination, LocalDate date, String email) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.destination = destination;
 		this.date = date;
-		this.status = status;
+		this.email = email;
 	}
+	
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -61,12 +72,6 @@ public class Enquiry {
 	}
 	public void setDate(LocalDate date) {
 		this.date = date;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
 	}
 	
 	

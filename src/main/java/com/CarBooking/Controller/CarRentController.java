@@ -4,37 +4,62 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.CarBooking.Entity.Booking;
 import com.CarBooking.Service.CarRentService;
+import com.CarBooking.Service.MailService;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class CarRentController {
 	
 	@Autowired
 	private CarRentService carRentService;
-	
-	@GetMapping("/check-availability")
-    public String checkAvailability(@RequestParam Long carId, @RequestParam String date) {
-        LocalDate bookingDate = LocalDate.parse(date);
-        boolean isAvailable = carRentService.isCarAvailable(carId, bookingDate);
 
-        if (isAvailable)
+	@Autowired
+	private MailService mailService;
+	
+	@GetMapping("/check-availability/{date}/{id}")
+    public String checkAvailability(@PathVariable("date") LocalDate date, @PathVariable("id") long carId) {
+		
+        boolean ans = carRentService.checkAvailability(date, carId);
+        
+        if(ans) 
         {
-        	return "Car is available for the selected date :" + date;
+        	return "Car is Available on : " + date ;
         }
-        else {
-        	return "Car is not available for the selected date :" + date ;
+        else
+        {
+        	return "Car is not Available on : " + date ;
         }
     }
 	
-	@PostMapping("/book")
-    public String bookCar(@RequestBody Booking booking) {
-        return carRentService.bookCar(booking);
-    }
-
+	@PostMapping("/bookCar")
+	public String bookCar(@RequestParam Long carId, 
+            @RequestParam LocalDate startDate, 
+            @RequestParam LocalDate endDate, 
+            @RequestParam String userName, 
+            @RequestParam String destination,
+            @RequestParam String email,
+            @RequestParam String userAddress)
+	{
+		String result = carRentService.bookCar(carId, startDate, endDate, userName, destination, email, userAddress);
+		
+		if(result.equals("success"))
+		{
+			String sub = "Booking successful";
+			String text = "Congratulations!! The car is booked successfully. From date " + startDate + " to " + endDate + ". The journey starts from " + userAddress + " to " + destination + ". Have a happy and safe journey!!";
+			mailService.sendMail(email, sub, text);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
 }

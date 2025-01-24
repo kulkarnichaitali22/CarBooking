@@ -6,37 +6,82 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 @Entity
+@Data
 public class Booking {
 	
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
-
-	    private Long carId;
-
-	    private LocalDate bookingDate;
-
+	    private Long id;	  
+	    private LocalDate startDate;
+	    private LocalDate endDate;
 	    private String userName;
-
 	    private String userAddress;
+	    private String destination;	    
+	    private String email;
+	    private boolean isAvailable;
 
-	    private String destination;
+	    @ManyToOne
+	    @JoinColumn(name = "car_id", nullable = false) 
+	    private CarInfo car; 
 
 		public Booking() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
+		
 
-		public Booking(Long carId, LocalDate bookingDate, String userName, String userAddress, String destination) {
+		public Booking(Long id,  LocalDate startDate,LocalDate endDate, String userName, String userAddress,
+				String destination, String email,boolean isAvailable,  CarInfo car) {
 			super();
-			this.carId = carId;
-			this.bookingDate = bookingDate;
+			this.id = id;
+			this.startDate = startDate;
+			this.endDate = endDate;
 			this.userName = userName;
 			this.userAddress = userAddress;
 			this.destination = destination;
+			this.email = email;
+			this.isAvailable = isAvailable;
+			this.car = car;
 		}
+
+
+	    public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
+		}
+		
+		public LocalDate getStartDate() {
+			return startDate;
+		}
+
+		public void setStartDate(LocalDate startDate) {
+			this.startDate = startDate;
+		}
+		
+		public LocalDate getEndDate() {
+			return endDate;
+		}
+
+		public void setEndDate(LocalDate endDate) {
+			this.endDate = endDate;
+		}
+		
+		public boolean getIsAvailable() {
+			return isAvailable;
+		}
+
+		public void setIsAvailable(boolean isAvailable) {
+			this.isAvailable = isAvailable;
+		}
+
 
 		public Long getId() {
 			return id;
@@ -46,20 +91,13 @@ public class Booking {
 			this.id = id;
 		}
 
-		public Long getCarId() {
-			return carId;
+		public CarInfo getCar() {
+			return car;
 		}
 
-		public void setCarId(Long carId) {
-			this.carId = carId;
-		}
 
-		public LocalDate getBookingDate() {
-			return bookingDate;
-		}
-
-		public void setBookingDate(LocalDate bookingDate) {
-			this.bookingDate = bookingDate;
+		public void setCar(CarInfo car) {
+			this.car = car;
 		}
 
 		public String getUserName() {

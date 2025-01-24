@@ -19,40 +19,51 @@ public class CarRentService {
 	
 	@Autowired
 	private BookingRepo bookingRepo;
+			
+	public boolean checkAvailability(LocalDate date, long carId) 
+	{
+		CarInfo car = carInfoRepo.findById(carId).orElse(null);
+		
+		if(car == null)
+		{
+			return false;
+		}
+		
+		List<Booking> bookings = bookingRepo.findByCarIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(car.getId(), date, date);
+        if (bookings.size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+		
+	}
 	
-	   public boolean isCarAvailable(Long carId, LocalDate bookingDate) {
-	        List<Booking> bookings = bookingRepo.findByCarId(carId);
+	 public String bookCar(Long carId, LocalDate startDate, LocalDate endDate, String userName, String destination, String email, String userAddress) {
+	        
+		    boolean startAvailable = checkAvailability(startDate, carId);
+	        boolean endAvailable = checkAvailability(endDate, carId);
 
-	        for (Booking booking : bookings) {
-	            if (booking.getBookingDate().isEqual(bookingDate)) {
-	                return false; 
-	            }
+	        if (startAvailable == false || endAvailable == false) {
+	            return "Car is not available for the selected dates.";
 	        }
 
-	        return true; 
+	        CarInfo car = carInfoRepo.findById(carId).orElse(null);
+	        if (car == null) {
+	            return "Car not found.";
+	        }
+
+	        Booking booking = new Booking();
+	        booking.setStartDate(startDate);
+	        booking.setEndDate(endDate);
+	        booking.setUserName(userName);
+	        booking.setDestination(destination);
+	        booking.setCar(car);
+	        booking.setEmail(email);
+	        booking.setUserAddress(userAddress);
+	        booking.setIsAvailable(false);
+
+	        bookingRepo.save(booking);
+	        return "success";
 	    }
-
-    public String bookCar(Booking booking) {
-        if (isCarAvailable(booking.getCarId(), booking.getBookingDate())) {
-            Booking book = new Booking();
-            book.setCarId(booking.getCarId());
-            book.setBookingDate(booking.getBookingDate());
-            book.setUserName(booking.getUserName());
-            book.setUserAddress(booking.getUserAddress());
-            book.setDestination(booking.getDestination());
-
-            bookingRepo.save(book);
-
-            CarInfo car = carInfoRepo.findById(booking.getCarId()).orElseThrow();
-            car.setIsAvailable(false);
-            car.setModifiedDate(LocalDate.now());
-            carInfoRepo.save(car);
-
-            return "Booking successful!";
-        } else {
-            return "Car is not available for the selected date.";
-        }
-    }
-	
 
 }
