@@ -38,30 +38,20 @@ public class CarRentService {
 		
 	}
 	
-	 public String bookCar(Long carId, LocalDate startDate, LocalDate endDate, String userName, String destination, String email, String userAddress) {
-	        
-		    boolean startAvailable = checkAvailability(startDate, carId);
-	        boolean endAvailable = checkAvailability(endDate, carId);
+	 public String bookCar(Booking booking)
+	 {
+		    boolean startAvailable = checkAvailability(booking.getStartDate(), booking.getCar().getId());
+	        boolean endAvailable = checkAvailability(booking.getEndDate(), booking.getCar().getId());
 
 	        if (startAvailable == false || endAvailable == false) {
 	            return "Car is not available for the selected dates.";
 	        }
 
-	        CarInfo car = carInfoRepo.findById(carId).orElse(null);
+	        CarInfo car = carInfoRepo.findById(booking.getCar().getId()).orElse(null);
 	        if (car == null) {
 	            return "Car not found.";
 	        }
-
-	        Booking booking = new Booking();
-	        booking.setStartDate(startDate);
-	        booking.setEndDate(endDate);
-	        booking.setUserName(userName);
-	        booking.setDestination(destination);
-	        booking.setCar(car);
-	        booking.setEmail(email);
-	        booking.setUserAddress(userAddress);
-	        booking.setIsAvailable(false);
-
+	   
 	        bookingRepo.save(booking);
 	        return "success";
 	    }

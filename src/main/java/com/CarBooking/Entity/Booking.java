@@ -24,106 +24,10 @@ public class Booking {
 	    private String destination;	    
 	    private String email;
 	    private boolean isAvailable;
+	    private int mailStatus;
 
 	    @ManyToOne
 	    @JoinColumn(name = "car_id", nullable = false) 
 	    private CarInfo car; 
-
-		public Booking() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-		
-
-		public Booking(Long id,  LocalDate startDate,LocalDate endDate, String userName, String userAddress,
-				String destination, String email,boolean isAvailable,  CarInfo car) {
-			super();
-			this.id = id;
-			this.startDate = startDate;
-			this.endDate = endDate;
-			this.userName = userName;
-			this.userAddress = userAddress;
-			this.destination = destination;
-			this.email = email;
-			this.isAvailable = isAvailable;
-			this.car = car;
-		}
-
-
-	    public String getEmail() {
-			return email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		public LocalDate getStartDate() {
-			return startDate;
-		}
-
-		public void setStartDate(LocalDate startDate) {
-			this.startDate = startDate;
-		}
-		
-		public LocalDate getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(LocalDate endDate) {
-			this.endDate = endDate;
-		}
-		
-		public boolean getIsAvailable() {
-			return isAvailable;
-		}
-
-		public void setIsAvailable(boolean isAvailable) {
-			this.isAvailable = isAvailable;
-		}
-
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public CarInfo getCar() {
-			return car;
-		}
-
-
-		public void setCar(CarInfo car) {
-			this.car = car;
-		}
-
-		public String getUserName() {
-			return userName;
-		}
-
-		public void setUserName(String userName) {
-			this.userName = userName;
-		}
-
-		public String getUserAddress() {
-			return userAddress;
-		}
-
-		public void setUserAddress(String userAddress) {
-			this.userAddress = userAddress;
-		}
-
-		public String getDestination() {
-			return destination;
-		}
-
-		public void setDestination(String destination) {
-			this.destination = destination;
-		}
-	    
-	    
 
 }

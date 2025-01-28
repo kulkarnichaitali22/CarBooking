@@ -6,8 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 @Entity
+@Data
 public class CarInfo {
 	
 	    @Id
@@ -17,60 +19,6 @@ public class CarInfo {
 	    private Double price;
 	    private LocalDate createdDate;
 	    private LocalDate modifiedDate;
-	    
-		public CarInfo() {
-			super();
-			// TODO Auto-generated constructor stub
-		}
-
-		public CarInfo(String brandName, Double price, LocalDate createdDate, LocalDate modifiedDate) {
-			super();
-			this.brandName = brandName;
-			this.price = price;
-			this.createdDate = createdDate;
-			this.modifiedDate = modifiedDate;
-		}
-
-		public Long getId() {
-			return id;
-		}
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public String getBrandName() {
-			return brandName;
-		}
-
-		public void setBrandName(String brandName) {
-			this.brandName = brandName;
-		}
-
-		public Double getPrice() {
-			return price;
-		}
-
-		public void setPrice(Double price) {
-			this.price = price;
-		}
-
-		public LocalDate getCreatedDate() {
-			return createdDate;
-		}
-
-		public void setCreatedDate(LocalDate createdDate) {
-			this.createdDate = createdDate;
-		}
-
-		public LocalDate getModifiedDate() {
-			return modifiedDate;
-		}
-
-		public void setModifiedDate(LocalDate modifiedDate) {
-			this.modifiedDate = modifiedDate;
-		}
-
 	    
 
 }
